@@ -4,7 +4,7 @@ import "./styles.css";
 export const App = () => {
   const [todoText, setTodoText] = useState("");
   const [incompleteTodos, setIncompleteTodos] = useState([]);
-  const [completeTodos, setCompleteTodos] = useState(["う"]);
+  const [completeTodos, setCompleteTodos] = useState([]);
   const onChangeTodoText = (event) => {
     setTodoText(event.target.value);
   };
@@ -28,6 +28,15 @@ export const App = () => {
     const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
     setIncompleteTodos(newIncompleteTodos);
     setCompleteTodos(newCompleteTodos);
+  };
+
+  const onClickBack = (index) => {
+    const newBackCompleteTodos = [...completeTodos];
+    newBackCompleteTodos.splice(index, 1);
+
+    const newBackIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+    setCompleteTodos(newBackCompleteTodos);
+    setIncompleteTodos(newBackIncompleteTodos);
   };
   return (
     <>
@@ -57,11 +66,11 @@ export const App = () => {
       <div class="complete-area">
         <p class="title">完了したTODO</p>
         <ul>
-          {completeTodos.map((todo) => {
+          {completeTodos.map((todo, index) => {
             return (
               <div key={todo} class="list-row">
                 <li>{todo}</li>
-                <button>戻す</button>
+                <button onClick={() => onClickBack(index)}>戻す</button>
               </div>
             );
           })}
